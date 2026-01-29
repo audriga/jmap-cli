@@ -1,0 +1,53 @@
+{
+   "lastName": "Test User",
+            "firstName": "Updated User",
+            "prefix": "",
+            "suffix": "",
+            "company": "audriga GmbH",
+            "department": "",
+            "jobTitle": "",
+            "addresses": [
+              {
+                "type": "home",
+                "label": null,
+                 "street": [
+                  {
+                    "value": "Main Street 5"
+                  }
+                ],
+                "locality": "Karlsruhe",
+                "region": "BW",
+                "postcode": "76133",
+                "country": "Germany"
+              }
+            ],
+            "emails": [
+              {
+                "type": "work",
+                "isDefault": true,
+                "value": "updated@example.org"
+              }
+            ],
+            "phones": [
+              {
+                "type": "mobile",
+                "value": "+4922222222"
+              }
+            ],
+            "online": [],
+            "nickname": "",
+            "anniversary": "2023-05-10",
+            "birthday": "0000-00-00",
+            "notes": "",
+            "x-hasPhoto": false,
+            "avatar": null,
+            "isFlagged": false,
+            "importance": 0.0,
+            "x-href": "/dav/addressbooks/user/user1/Default/2e73dedf-5e34-45d4-8139-df177ebac12a.vcf",
+            "blobId": "VTWQ0NDkxZmZkLWQ1YmYtNDFkZS1hNGEzLTRiNjhkOGIzODg1Yzo2",
+            "size": 383,
+            "id": "2e73dedf-5e34-45d4-8139-df177ebac12a",
+            "uid": "2e73dedf-5e34-45d4-8139-df177ebac12a",
+            "addressbookId": "Default"
+          }
+              

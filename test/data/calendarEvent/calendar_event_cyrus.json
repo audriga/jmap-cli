@@ -1,0 +1,24 @@
+{
+  "title": "Artsy",
+  "start": "2023-04-28T14:00:00",
+  "duration": "P2DT1H",
+  "status": "confirmed",
+  "calendarIds": { "Default": true },
+  "type": "Event",
+  "timeZone": "Europe/Berlin",
+  "description": "Scrum meeting with developers",
+  "sequence": 3,
+  "alerts": {
+    "1": { "trigger": { "type": "OffsetTrigger", "offset": "-PT10M", "relativeTo": "start" }, "action": "display" }
+  },
+  "participants": {
+    "1": {
+      "type": "Participant",
+      "name": "Test User 1",
+      "sendTo": { "imip": "mailto:testuser@jmaptest.de" },
+      "roles": { "attendee": true },
+      "expectReply": true
+    }
+  },
+  "locations": { "1": { "type": "Location", "name": "Karlsruhe" } }
+}

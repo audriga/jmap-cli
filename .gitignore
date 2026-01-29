@@ -1,0 +1,6 @@
+.idea/
+.dart_tool/
+.packages
+build/
+*.iml
+.vscode/
