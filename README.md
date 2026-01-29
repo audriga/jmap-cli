@@ -3,7 +3,7 @@
 A command-line interface for interacting with **[JMAP](https://jmap.io/index.html) servers**, built on top of (our fork of) [JMAP Dart client library](https://github.com/audriga/jmap-dart-client).
 We use this tool, to test our fork of the client library.
 We mainly test against [Stalwart](https://github.com/stalwartlabs/stalwart).
-See [jmap-dart-client/FORK#jmap-servers](https://bitbucket.org/audriga/jmap-dart-client/src/master/FORK.md#jmap-servers) for other jmap servers we tested against.
+See [jmap-dart-client/FORK#jmap-servers](https://github.com/audriga/jmap-dart-client/blob/main/FORK.md#jmap-servers) for other jmap servers we tested against.
 
 For more information on JMAP, see also [the JMAP Crash Course](https://jmap.io/crash-course.html)
 
@@ -173,7 +173,7 @@ jmap_cli addressBook delete --url <server-url> -u <user> -p <pass> --state xyz
 ### Support for Legacy Contact Spec
 
 For historic reasons, we support not only the current ietf draft spec for contacts, but two other versions as well (which will get removed in the future).
-See [jmap-dart-client/ContactAPIVersions.md](https://bitbucket.org/audriga/jmap-dart-client/src/master/ContactAPIVersions.md) for more details
+See [jmap-dart-client/ContactAPIVersions.md](https://github.com/audriga/jmap-dart-client/blob/main/ContactAPIVersions.md) for more details
 If you are interacting with a server that implements one of these legacy versions, you must set the corresponding flag.
 
 ```bash

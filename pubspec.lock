@@ -181,10 +181,10 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "9fdbf71baeb250fc9da847f6cb2052196f62c19906a3657adfc18631a667d316"
+      sha256: e44ce32c01f02c54a101551def8586f15d6189b4f999d4420aad38995ac62e6d
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "5.2.0"
   equatable:
     dependency: transitive
     description:
@@ -296,8 +296,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "86d454a43525159ff1b2d31eadf6fda0b26f06da"
-      url: "git@bitbucket.org:audriga/jmap-dart-client.git"
+      resolved-ref: "92991a45cc9bc95609b65d10f767a6b3a70811c1"
+      url: "https://github.com/audriga/jmap-dart-client.git"
     source: git
     version: "0.3.6"
   js:
