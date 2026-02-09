@@ -1,0 +1,68 @@
+{  "addressBookIds": {"b": true},
+   "prodId": "12332",
+   "created": "13-4-2023",
+   "kind": "testing",
+   "name": {
+      "components": [
+         { "kind": "given",   "value": "Tester" },
+        { "kind": "surname", "value": "McTestface" }
+      ]
+    },
+    "organizations": {
+      "a49d": {
+        "type": "organize",
+        "name": "test",
+        "units": ["123"]
+      }
+    },
+    "phones": {
+      "a49d": {
+        "type": "organize",
+        "phone": "test",
+        "number": "123",
+        "contexts": {
+          "private": true
+        }
+      }
+    },
+    "anniversaries": {
+      "123": {
+        "type": "organize",
+        "anniversaryType": "test",
+        "date": "12-04-2023"
+      }
+    },
+    "relatedTo": {
+      "Frankie": {
+        "type": "Relation",
+        "relation": {
+          "spouse": true
+        }
+      }
+    },
+    "emails": {
+      "1": { "address": "pepa@example.org", "contexts": { "work": true } },
+      "2": { "address": "piggy@family.org", "contexts": { "home": true } }
+    },
+    "addresses": {
+      "345": {
+        "type": "Address",
+        "contexts": {
+          "work": true
+        },
+        "street": [{
+          "typeName": "StreetComponent",
+          "type": "name",
+          "value": "dudweiler"
+        }]
+      }
+    },
+   "titles": {
+     "455": {
+       "type": "Title",
+       "title": "assistent Manager",
+       "organization": null
+     }
+   }
+ }
+ 

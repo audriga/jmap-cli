@@ -1,0 +1,26 @@
+name: jmap_cli
+description: A jmap command-line application.
+version: 1.0.0
+publish_to: none
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ">=2.15.0 <3.0.0"
+# dependencies:
+#   path: ^1.8.0
+
+dependencies:
+  http: ^1.6.0
+  args: ^2.0.0
+  logging: ^1.1.0
+
+  jmap_dart_client: 
+    git:
+      url: https://github.com/audriga/jmap-dart-client.git
+  dio: ^5.0.0
+  io: ^1.0.5
+  intl: ^0.20.2
+dev_dependencies:
+  lints: ^6.0.0
+  flutter_test:
+    sdk: flutter

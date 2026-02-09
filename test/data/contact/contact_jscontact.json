@@ -1,0 +1,81 @@
+{  
+   "fullName": "looktest",
+   "prodId": "12332",
+   "nickNames": ["test 21"],
+   "created": "13-4-2023",
+   "kind": "testing",
+   "name": {
+      "type": "test",
+      "locale": "test",
+      "components": [{"@type":"hello", "type": "mr", "value": "", "ntn": "test"}]
+    },
+    "organizations": {
+      "a49d": {
+        "type": "organize",
+        "name": "test",
+        "units": ["123"]
+      }
+    },
+    "phones": {
+      "a49d": {
+        "type": "organize",
+        "phone": "test",
+        "number": "123",
+        "contexts": {
+          "private": true
+        }
+      }
+    },
+    "anniversaries": {
+      "123": {
+        "type": "organize",
+        "anniversaryType": "test",
+        "date": "12-04-2023"
+      }
+    },
+    "relatedTo": {
+      "Frankie": {
+        "type": "Relation",
+        "relation": {
+          "spouse": true
+        }
+      }
+    },
+    "speakToAs": {
+      "type": "SpeakToAs",
+      "grammaticalGender": "male",
+      "pronouns": "he/him"
+    },
+    "emails": {
+      "123": {
+        "type": "organize",
+        "email": "test@gmail.com",
+        "label": "12-04-2023",
+        "pref": "test",
+        "contexts": {
+          "work": true
+        }
+      }
+    },
+    "addresses": {
+      "345": {
+        "type": "Address",
+        "contexts": {
+          "work": true
+        },
+        "street": [{
+          "typeName": "StreetComponent",
+          "type": "name",
+          "value": "dudweiler"
+        }]
+      }
+    },
+   "titles": {
+     "455": {
+       "type": "Title",
+       "title": "assistent Manager",
+       "organization": null
+     }
+   }
+ }
+ 
