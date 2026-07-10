@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:args/args.dart';
 import 'package:jmap_cli/src/commands/base_command.dart';
 import 'package:jmap_dart_client/util/session_util.dart';
@@ -40,28 +41,12 @@ class GetSessionCommand extends BaseCommand {
     ArgResults args,
     String httpMethod,
   ) async {
-    final raw = args['url'];
-    if (raw == null || raw is! String) {
+    final raw = (args['url'] as String?)?.isNotEmpty == true
+        ? args['url'] as String
+        : Platform.environment['JMAP_URL'];
+
+    if (raw == null || raw.isEmpty) {
       throw Exception('Missing --url');
-    }
-    // If --url already contains JSON, pass it through
-    if (raw.trim().startsWith('{')) {
-    } else {
-      final username = args['userName'];
-      final password = args['userPassword'];
-      final token = args['token'];
-
-      if (token == null && (username == null || password == null)) {
-        throw Exception('Missing authentication');
-      }
-
-      <String, dynamic>{
-        'url': raw,
-        if (token != null) 'token': token,
-        if (token == null) 'username': username,
-        if (token == null) 'password': password,
-      };
-
     }
 
     if (raw.trim().startsWith('{')) {
@@ -71,13 +56,20 @@ class GetSessionCommand extends BaseCommand {
       );
     }
 
+    final username = (args['userName'] as String?)?.isNotEmpty == true
+        ? args['userName'] as String
+        : Platform.environment['JMAP_USERNAME'];
+    final password = (args['userPassword'] as String?)?.isNotEmpty == true
+        ? args['userPassword'] as String
+        : Platform.environment['JMAP_PASSWORD'];
+    final token = args['token'] as String?;
+
     return createLiveClientFromJson(
       credentialsJson: jsonEncode({
-
         'url': raw,
-        if (args['token'] != null) 'token': args['token'],
-        if (args['token'] == null) 'username': args['userName'],
-        if (args['token'] == null) 'password': args['userPassword'],
+        if (token != null) 'token': token,
+        if (token == null) 'username': username,
+        if (token == null) 'password': password,
       }),
       httpMethod: httpMethod,
     );

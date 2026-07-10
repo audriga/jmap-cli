@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:dio/dio.dart';
@@ -26,9 +27,15 @@ abstract class BaseCommand extends Command<int> {
   }
 
   jmap_http.HttpClient createJmapHttpClient(ArgResults? args, String method) {
-    final userName = args?['userName'] as String? ?? '';
-    final userPassword = args?['userPassword'] as String? ?? '';
-     final url = args?['url'] as String? ?? '';
+    final userName = (args?['userName'] as String?)?.isNotEmpty == true
+        ? args!['userName'] as String
+        : Platform.environment['JMAP_USERNAME'] ?? '';
+    final userPassword = (args?['userPassword'] as String?)?.isNotEmpty == true
+        ? args!['userPassword'] as String
+        : Platform.environment['JMAP_PASSWORD'] ?? '';
+    final url = (args?['url'] as String?)?.isNotEmpty == true
+        ? args!['url'] as String
+        : Platform.environment['JMAP_URL'] ?? '';
 
     final auth = 'Basic ${base64Encode(utf8.encode('$userName:$userPassword'))}';
 
@@ -50,7 +57,9 @@ abstract class BaseCommand extends Command<int> {
 
   Future<JmapClientContext> buildClientAndAccount(
       ArgResults args, String method) async {
-    final accountIdArg = args['accountId'] as String?;
+    final accountIdArg = (args['accountId'] as String?)?.isNotEmpty == true
+        ? args['accountId'] as String
+        : Platform.environment['JMAP_ACCOUNT_ID'];
 
     if (accountIdArg != null && accountIdArg.isNotEmpty) {
       final client = createJmapHttpClient(args, method);
