@@ -14,9 +14,10 @@ dependencies:
   args: ^2.0.0
   logging: ^1.1.0
 
-  jmap_dart_client: 
+  jmap_dart_client:
     git:
-      url: git@bitbucket.org:audriga/jmap-dart-client.git
+      url: https://github.com/audriga/jmap-dart-client.git
+      ref: main
   dio: ^5.0.0
   io: ^1.0.5
   intl: ^0.20.2
