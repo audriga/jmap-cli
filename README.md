@@ -13,6 +13,7 @@ For more information on JMAP, see also [the JMAP Crash Course](https://jmap.io/c
   * [Features](#features)
     * [Supported Sub-Commands](#supported-sub-commands)
     * [Global Options](#global-options)
+    * [Environment Variables](#environment-variables)
       * [Show global help](#show-global-help)
       * [Show help for a specific command](#show-help-for-a-specific-command)
   * [Session](#session)
@@ -123,6 +124,7 @@ This avoids them being saved in shell history.
 | `JMAP_USERNAME`      | `--userName` / `-u`     |
 | `JMAP_PASSWORD`      | `--userPassword` / `-p` |
 | `JMAP_ACCOUNT_ID`    | `--accountId` / `-a`    |
+| `JMAP_TOKEN`         | `--token`               |
 
 CLI flags take precedence if both are provided.
 

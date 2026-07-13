@@ -62,7 +62,9 @@ class GetSessionCommand extends BaseCommand {
     final password = (args['userPassword'] as String?)?.isNotEmpty == true
         ? args['userPassword'] as String
         : Platform.environment['JMAP_PASSWORD'];
-    final token = args['token'] as String?;
+    final token = (args['token'] as String?)?.isNotEmpty == true
+        ? args['token']
+        : Platform.environment['JMAP_TOKEN'];
 
     return createLiveClientFromJson(
       credentialsJson: jsonEncode({
