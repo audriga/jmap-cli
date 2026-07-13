@@ -1,7 +1,3 @@
-# This Project has been moved!
-
-Development continues at https://github.com/audriga/jmap-cli
-
 # jmap-cli
 
 A command-line interface for interacting with **[JMAP](https://jmap.io/index.html) servers**, built on top of (our fork of) [JMAP Dart client library](https://github.com/audriga/jmap-dart-client).
