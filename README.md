@@ -13,6 +13,7 @@ For more information on JMAP, see also [the JMAP Crash Course](https://jmap.io/c
   * [Features](#features)
     * [Supported Sub-Commands](#supported-sub-commands)
     * [Global Options](#global-options)
+    * [Environment Variables](#environment-variables)
       * [Show global help](#show-global-help)
       * [Show help for a specific command](#show-help-for-a-specific-command)
   * [Session](#session)
@@ -111,6 +112,30 @@ The available operations depend on the object type (and will be explained in the
 - `--verbose`, `-v`     Enable detailed logging  
 - `--version`           Print the CLI version  
 - `--help`              Show help  
+
+### Environment Variables
+
+Credentials can also be provided via environment variables instead of flags.
+This avoids them being saved in shell history.
+
+| Environment variable | Equivalent flag         |
+|----------------------|-------------------------|
+| `JMAP_URL`           | `--url`                 |
+| `JMAP_USERNAME`      | `--userName` / `-u`     |
+| `JMAP_PASSWORD`      | `--userPassword` / `-p` |
+| `JMAP_ACCOUNT_ID`    | `--accountId` / `-a`    |
+| `JMAP_TOKEN`         | `--token`               |
+
+CLI flags take precedence if both are provided.
+
+```bash
+export JMAP_URL=http://localhost:8083/jmap/session
+export JMAP_USERNAME=user@example.com
+export JMAP_PASSWORD=secret
+
+./bin/jmap_cli mailbox get --all
+./bin/jmap_cli email get --all
+```
 
 #### Show global help
 ```bash
