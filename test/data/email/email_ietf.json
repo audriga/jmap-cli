@@ -1,0 +1,22 @@
+{
+  "subject": "CLI test email (JSON create)",
+  "from": [{ "name": "JMAP CLI Test", "email": "sender@example.com" }],
+  "to": [{ "name": "Recipient", "email": "recipient@example.com" }],
+  "cc": [{ "name": "CC Recipient", "email": "cc@example.com" }],
+  "replyTo": [{ "name": "Reply To", "email": "replyto@example.com" }],
+  "keywords": { "$draft": true },
+  "bodyValues": {
+    "text1": {
+      "value": "This is the plain text body of the CLI test email.",
+      "isEncodingProblem": false,
+      "isTruncated": false
+    },
+    "html1": {
+      "value": "<html><body><p>This is the <strong>HTML body</strong> of the CLI test email.</p></body></html>",
+      "isEncodingProblem": false,
+      "isTruncated": false
+    }
+  },
+  "textBody": [{ "partId": "text1", "type": "text/plain" }],
+  "htmlBody": [{ "partId": "html1", "type": "text/html" }]
+}

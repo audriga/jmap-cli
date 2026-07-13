@@ -40,6 +40,18 @@ For more information on JMAP, see also [the JMAP Crash Course](https://jmap.io/c
     * [calendarEvent get](#calendarevent-get)
     * [calendarEvent delete](#calendarevent-delete)
     * [calendarEvent changes](#calendarevent-changes)
+  * [Email](#email)
+    * [email get](#email-get)
+    * [email create](#email-create)
+    * [email delete](#email-delete)
+    * [email send](#email-send)
+    * [email query](#email-query)
+    * [email changes](#email-changes)
+  * [Mailbox](#mailbox)
+    * [mailbox get](#mailbox-get)
+    * [mailbox create](#mailbox-create)
+    * [mailbox delete](#mailbox-delete)
+    * [mailbox changes](#mailbox-changes)
   * [FileNodes](#filenodes)
     * [fileNodes list](#filenodes-list)
     * [fileNodes tree](#filenodes-tree)
@@ -65,7 +77,8 @@ Dart supports Linux/ Windows/ MacOS. The above command does not depend on your o
 
 ## Features
 
-* We support the jmap functions `/get` `/set`, and `/changes` for Contacts, AddressBooks, CalendarEvents, Calendars, and FileNodes.
+* We support the jmap functions `/get` `/set`, and `/changes` for Contacts, AddressBooks, CalendarEvents, Calendars, Emails, Mailboxes, and FileNodes.
+* For Emails we additionally support `/query` for filtering and paging, `/import` for storing raw MIME messages, and `EmailSubmission/set` for sending.
 * In the FileNode case we support (mostly) rsync-inspired file management operations.
 
 ### Supported Sub-Commands
@@ -77,8 +90,10 @@ The general command structure is
 * `contact`
 * `calendar`
 * `calendarEvent`
+* `email`
 * `fileNodes`
 * `identity`
+* `mailbox`
 * `session`
 
 The available operations depend on the object type (and will be explained in their corresponding section), but common ones are
@@ -328,6 +343,148 @@ Usage example:
 jmap_cli calendarEvent changes --url <server-url> -u <user> -p <pass> -state abc
 ```
 
+## Email
+
+### email get
+Fetch all emails or a single email by id. Use `--all` for full paged retrieval. Use `-o out.eml` to download raw MIME.
+
+Options:
+- `--id`, `-i` : Id of email to fetch
+- `--all` : Fetch all emails via paged queries
+- `--mailboxId`, `-m` : Filter by mailbox id (required with `--all` on some servers)
+- `--batchSize` : Number of emails per page when using `--all` (default: 50)
+- `--output`, `-o` : Write output to a file. If the path ends in `.eml`, downloads raw MIME instead of JSON.
+
+Usage examples:
+```bash
+jmap_cli email get --url <server-url> -u <user> -p <pass>
+jmap_cli email get --url <server-url> -u <user> -p <pass> -i <emailId>
+jmap_cli email get --url <server-url> -u <user> -p <pass> --all --mailboxId <mailboxId>
+jmap_cli email get --url <server-url> -u <user> -p <pass> -i <emailId> -o out.eml
+```
+
+### email create
+Create an email from CLI args or a file. `.eml` files are automatically imported via `Email/import`. JSON files use `Email/set`.
+
+Options:
+- `--file`, `-f` : Path to a JSON or `.eml` file
+- `--mailboxId`, `-m` : Mailbox id to place the email in (required for `.eml` import)
+- `--subject`, `-s` : Email subject
+- `--from` : Sender email address
+- `--to` : Recipient email address
+- `--body`, `-b` : Plain-text body
+
+Usage examples:
+```bash
+jmap_cli email create --url <server-url> -u <user> -p <pass> --from sender@example.com --to recipient@example.com --subject "Hello" --body "Hi" --mailboxId <mailboxId>
+jmap_cli email create --url <server-url> -u <user> -p <pass> -f email.json --mailboxId <mailboxId>
+jmap_cli email create --url <server-url> -u <user> -p <pass> -f message.eml --mailboxId <mailboxId>
+```
+
+### email delete
+Delete an email by id.
+
+Options:
+- `--id`, `-i` : Id of email to delete
+
+Usage example:
+```bash
+jmap_cli email delete --url <server-url> -u <user> -p <pass> -i <emailId>
+```
+
+### email send
+Create a draft and submit it for delivery in one step via `Email/set` + `EmailSubmission/set`.
+
+Options:
+- `--from` : Sender email address
+- `--to` : Recipient email address
+- `--subject`, `-s` : Email subject
+- `--body`, `-b` : Plain-text body
+- `--mailboxId`, `-m` : Mailbox id for the draft
+- `--identityId` : Identity id to send from (use `identity get` to find it)
+
+Usage example:
+```bash
+jmap_cli email send --url <server-url> -u <user> -p <pass> --from sender@example.com --to recipient@example.com --subject "Hello" --body "Hi" --mailboxId <mailboxId> --identityId <identityId>
+```
+
+### email query
+Query email ids with optional filtering and paging.
+
+Options:
+- `--mailboxId`, `-m` : Filter to emails in this mailbox
+- `--limit`, `-l` : Maximum number of ids to return
+- `--position` : Zero-based index of the first result (for paging)
+
+Usage examples:
+```bash
+jmap_cli email query --url <server-url> -u <user> -p <pass> --mailboxId <mailboxId>
+jmap_cli email query --url <server-url> -u <user> -p <pass> --mailboxId <mailboxId> --limit 10 --position 0
+jmap_cli email query --url <server-url> -u <user> -p <pass> --mailboxId <mailboxId> --limit 10 --position 10
+```
+
+### email changes
+Fetch email changes since a given state.
+
+Options:
+- `--state` : If omitted, the CLI fetches the latest state automatically
+
+Usage example:
+```bash
+jmap_cli email changes --url <server-url> -u <user> -p <pass> --state <state>
+```
+
+## Mailbox
+
+### mailbox get
+Fetch all mailboxes or a single mailbox by id. Use `--all` for full paged retrieval.
+
+Options:
+- `--id`, `-i` : Id of mailbox to fetch
+- `--all` : Fetch all mailboxes via paged queries
+
+Usage examples:
+```bash
+jmap_cli mailbox get --url <server-url> -u <user> -p <pass>
+jmap_cli mailbox get --url <server-url> -u <user> -p <pass> -i <mailboxId>
+jmap_cli mailbox get --url <server-url> -u <user> -p <pass> --all
+```
+
+### mailbox create
+Create a mailbox.
+
+Options:
+- `--name`, `-n` : Name of the mailbox
+- `--parentId` : Id of the parent mailbox (for nested folders)
+
+Usage examples:
+```bash
+jmap_cli mailbox create --url <server-url> -u <user> -p <pass> --name "My Folder"
+jmap_cli mailbox create --url <server-url> -u <user> -p <pass> --name "Sub Folder" --parentId <parentId>
+```
+
+### mailbox delete
+Delete a mailbox by id.
+
+Options:
+- `--id`, `-i` : Id of mailbox to delete
+
+Usage example:
+```bash
+jmap_cli mailbox delete --url <server-url> -u <user> -p <pass> -i <mailboxId>
+```
+
+### mailbox changes
+Fetch mailbox changes since a given state.
+
+Options:
+- `--state` : If omitted, the CLI fetches the latest state automatically
+
+Usage example:
+```bash
+jmap_cli mailbox changes --url <server-url> -u <user> -p <pass> --state <state>
+```
+
 ## FileNodes
 
 Manage files and folders on the JMAP server.
@@ -407,7 +564,7 @@ jmap_cli fileNodes cp jmap:someFolder/local.txt download.txt --url <server-url> 
 ```
 # License
 
-©audriga GmbH.
+© audriga GmbH.
 source code is available under MIT license.
 
 # Acknowledgement

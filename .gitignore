@@ -4,3 +4,5 @@
 build/
 *.iml
 .vscode/
+bin/jmap_cli
+pubspec_overrides.yaml
