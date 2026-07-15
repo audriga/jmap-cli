@@ -59,6 +59,13 @@ For more information on JMAP, see also [the JMAP Crash Course](https://jmap.io/c
     * [fileNodes mkdir](#filenodes-mkdir)
     * [fileNodes rm](#filenodes-rm)
     * [fileNodes cp](#filenodes-cp)
+  * [Sieve](#sieve)
+    * [sieve get](#sieve-get)
+    * [sieve create](#sieve-create)
+    * [sieve delete](#sieve-delete)
+    * [sieve changes](#sieve-changes)
+    * [sieve activate](#sieve-activate)
+    * [sieve deactivate](#sieve-deactivate)
 * [License](#license)
 * [Acknowledgement](#acknowledgement)
 <!-- TOC -->
@@ -78,9 +85,10 @@ Dart supports Linux/ Windows/ MacOS. The above command does not depend on your o
 
 ## Features
 
-* We support the jmap functions `/get` `/set`, and `/changes` for Contacts, AddressBooks, CalendarEvents, Calendars, Emails, Mailboxes, and FileNodes.
+* We support the jmap functions `/get` `/set`, and `/changes` for Contacts, AddressBooks, CalendarEvents, Calendars, Emails, Mailboxes, FileNodes, and Sieve scripts.
 * For Emails we additionally support `/query` for filtering and paging, `/import` for storing raw MIME messages, and `EmailSubmission/set` for sending.
 * In the FileNode case we support (mostly) rsync-inspired file management operations.
+* For Sieve scripts we additionally support activating and deactivating a script.
 
 ### Supported Sub-Commands
 
@@ -96,6 +104,7 @@ The general command structure is
 * `identity`
 * `mailbox`
 * `session`
+* `sieve`
 
 The available operations depend on the object type (and will be explained in their corresponding section), but common ones are
 * `get` gets all items ot the object type
@@ -508,6 +517,79 @@ Options:
 Usage example:
 ```bash
 jmap_cli mailbox changes --url <server-url> -u <user> -p <pass> --state <state>
+```
+
+## Sieve
+
+Manage Sieve scripts (mail filtering rules) on the JMAP server. The script content is treated as an opaque string; this CLI does not parse or validate Sieve syntax.
+
+### sieve get
+Fetch all sieve scripts or a single script by id.
+
+Options:
+- `--id`, `-i` : Id of the sieve script to fetch
+
+Usage examples:
+```bash
+jmap_cli sieve get --url <server-url> -u <user> -p <pass>
+jmap_cli sieve get --url <server-url> -u <user> -p <pass> -i <scriptId>
+```
+
+### sieve create
+Create a sieve script from a file or inline content.
+
+Options:
+- `--name`, `-n` : Name of the sieve script (required)
+- `--file`, `-f` : Path to a file containing the sieve script source
+- `--content` : Sieve script source, given inline instead of a file
+
+Usage examples:
+```bash
+jmap_cli sieve create --url <server-url> -u <user> -p <pass> --name myFilter --file myFilter.sieve
+jmap_cli sieve create --url <server-url> -u <user> -p <pass> --name myFilter --content 'require ["fileinto"]; keep;'
+```
+
+### sieve delete
+Delete a sieve script by id.
+
+Options:
+- `--id`, `-i` : Id of the sieve script to delete
+
+Usage example:
+```bash
+jmap_cli sieve delete --url <server-url> -u <user> -p <pass> -i <scriptId>
+```
+
+### sieve changes
+Fetch sieve script changes since a given state.
+
+Options:
+- `--state` : If omitted, the CLI fetches the latest state automatically
+
+Usage example:
+```bash
+jmap_cli sieve changes --url <server-url> -u <user> -p <pass> --state <state>
+```
+
+Note: this is part of the JMAP Sieve specification, but we are not aware of a working server implementation of it yet (e.g. Stalwart v1.0.0 returns an `unknownMethod` error), so the CLI will fail gracefully with a message stating this.
+
+### sieve activate
+Activate a sieve script by id. Only one script can be active per account at a time; activating one replaces whichever script was previously active.
+
+Options:
+- `--id`, `-i` : Id of the sieve script to activate
+
+Usage example:
+```bash
+jmap_cli sieve activate --url <server-url> -u <user> -p <pass> -i <scriptId>
+```
+
+### sieve deactivate
+Deactivate whichever sieve script is currently active, if any.
+
+Usage example:
+```bash
+jmap_cli sieve deactivate --url <server-url> -u <user> -p <pass>
 ```
 
 ## FileNodes
