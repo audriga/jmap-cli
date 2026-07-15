@@ -28,6 +28,7 @@ class JmapCommandRunner extends CommandRunner<int> {
     addCommand(CalendarCommand());
     addCommand(EmailCommand());
     addCommand(MailboxCommand());
+    addCommand(SieveCommand());
   }
 
   /// Parses and executes commands from the provided [args].
