@@ -15,7 +15,9 @@ class GetMailboxCommand extends BaseCommand {
   final description = 'Get mailboxes or a single mailbox by id';
 
   GetMailboxCommand() {
-    argParser.addFlag('all', help: 'Fetch all mailboxes using paged queries (for large accounts).');
+    argParser
+      ..addFlag('all', help: 'Fetch all mailboxes using paged queries (for large accounts).')
+      ..addOption('fields', help: 'Comma-separated list of properties to return, e.g. id,name,shareWith. Defaults to all properties.');
   }
 
   @override
@@ -28,11 +30,17 @@ class GetMailboxCommand extends BaseCommand {
       final accountId = AccountId(Id(args['accountId'] ?? live.accountId.id.value));
       final id = args['id'];
 
+      final fieldsArg = args['fields'] as String?;
+      final properties = (fieldsArg != null && fieldsArg.isNotEmpty)
+          ? fieldsArg.split(',').map((f) => f.trim()).toSet()
+          : null;
+
       if (id != null && id is String && id.isNotEmpty) {
         final mailbox = await MailboxUtil.getMailboxById(
           client: live.httpClient,
           accountId: accountId,
           id: id,
+          properties: properties,
         );
 
         if (mailbox == null) {
@@ -56,6 +64,7 @@ class GetMailboxCommand extends BaseCommand {
       final resp = await MailboxUtil.getMailboxes(
         client: live.httpClient,
         accountId: accountId,
+        properties: properties,
       );
 
       print(jsonEncode(resp));

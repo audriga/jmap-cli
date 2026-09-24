@@ -13,6 +13,8 @@ class MailboxCommand extends BaseCommand {
     addSubcommand(CreateMailboxCommand());
     addSubcommand(DeleteMailboxCommand());
     addSubcommand(ChangesMailboxCommand());
+    addSubcommand(ShareMailboxCommand());
+    addSubcommand(MailboxAccessCommand());
   }
 
   @override

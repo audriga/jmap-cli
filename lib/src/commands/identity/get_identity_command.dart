@@ -32,7 +32,8 @@ class GetIdentityCommand extends BaseCommand {
       }
 
       for (final identity in response.list) {
-        print('Account Id : ${identity.id?.id.value}');
+        print('Account Id : ${live.accountId.id.value}');
+        print('Identity Id : ${identity.id?.id.value}');
         print('Name : ${identity.name}');
         print('Email : ${identity.email}');
         print('Text Signature : ${identity.textSignature?.value}');
