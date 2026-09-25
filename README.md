@@ -53,6 +53,11 @@ For more information on JMAP, see also [the JMAP Crash Course](https://jmap.io/c
     * [mailbox create](#mailbox-create)
     * [mailbox delete](#mailbox-delete)
     * [mailbox changes](#mailbox-changes)
+  * [Multi-account access](#multi-account-access)
+    * [mailbox share](#mailbox-share)
+    * [mailbox access](#mailbox-access)
+    * [Listing shared mailboxes from another account](#listing-shared-mailboxes-from-another-account)
+    * [access](#access)
   * [FileNodes](#filenodes)
     * [fileNodes list](#filenodes-list)
     * [fileNodes tree](#filenodes-tree)
@@ -89,12 +94,14 @@ Dart supports Linux/ Windows/ MacOS. The above command does not depend on your o
 * For Emails we additionally support `/query` for filtering and paging, `/import` for storing raw MIME messages, and `EmailSubmission/set` for sending.
 * In the FileNode case we support (mostly) rsync-inspired file management operations.
 * For Sieve scripts we additionally support activating and deactivating a script.
+* Mailboxes can be shared with other accounts self-service (no admin required), and you can see which accounts you can access and what you've shared out.
 
 ### Supported Sub-Commands
 
 The general command structure is
 `jmap_cli <objectType> <operation>`, where `<objectType> is one of the following:
 
+* `access`
 * `addressBook`
 * `contact`
 * `calendar`
@@ -517,6 +524,58 @@ Options:
 Usage example:
 ```bash
 jmap_cli mailbox changes --url <server-url> -u <user> -p <pass> --state <state>
+```
+
+## Multi-account access
+
+Share your own mailboxes with other accounts, and see what accounts you can access and what you've shared out.
+
+### mailbox share
+Share one of your own mailboxes with another account. Self-service, no admin required, only affects the caller's own mailbox.
+
+Options:
+- `--id` : Id of the mailbox to share
+- `--withAccountId` : Account id to share the mailbox with
+- `--mayReadItems`, `--mayAddItems`, `--mayRemoveItems`, `--maySetSeen`, `--maySetKeywords`, `--mayCreateChild`, `--mayRename`, `--mayDelete`, `--maySubmit` : Rights to grant (all optional, default off)
+- `--mayShare` : Lets the other account re-share the mailbox further (Stalwart-specific, not part of the base JMAP Mail spec)
+
+Usage example:
+```bash
+jmap_cli mailbox share --url <server-url> -u <user> -p <pass> --id <mailboxId> --withAccountId <accountId> --mayReadItems --mayAddItems
+```
+
+### mailbox access
+Show who a specific mailbox is currently shared with, and what rights each account has.
+
+Options:
+- `--id` : Id of the mailbox to check
+- `--json` : Print raw JSON instead of the formatted summary
+
+Usage example:
+```bash
+jmap_cli mailbox access --url <server-url> -u <user> -p <pass> --id <mailboxId>
+```
+
+### Listing shared mailboxes from another account
+Uses the existing [`mailbox get`](#mailbox-get) command with two additional options:
+- `--accountId` : Whose mailboxes to list. Only shows what's actually shared with you, not their whole account
+- `--fields` : Comma-separated list of properties to return, e.g. `id,name,shareWith`. Defaults to all properties
+
+Usage example:
+```bash
+jmap_cli mailbox get --url <api-url> -u <user> -p <pass> --accountId <theirAccountId> --fields id,name,shareWith
+```
+Note: with `--accountId` set, session lookup is skipped, so `--url` must be the JMAP API endpoint directly, not the session/well-known URL.
+
+### access
+Show who you're logged in as, which accounts are already shared with you, other accounts that exist on the server, and what you've shared out yourself (mailboxes and files).
+
+Options:
+- `--json` : Print raw JSON instead of the formatted summary; JSON output also includes `sharedByMe.fileNodes`
+
+Usage example:
+```bash
+jmap_cli access --url <server-url> -u <user> -p <pass>
 ```
 
 ## Sieve
